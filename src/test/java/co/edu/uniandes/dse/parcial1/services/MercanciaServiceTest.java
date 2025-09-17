@@ -66,19 +66,84 @@ public class MercanciaServiceTest {
 
         // test with null name
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            newEntity.setNombre(null);
             mercanciaService.createMercanciaEntity(newEntity);
         });
     }
 
     @Test
-    public void testCreateMercanciaWithNotDate() {
+    public void testCreateMercanciaWithNotCodigoBarras() {
         MercanciaEntity newEntity = factory.manufacturePojo(MercanciaEntity.class);
-        newEntity.setFechaRecepcion(null);
+        newEntity.setCodigoBarras(null);
+        newEntity.setFechaRecepcion(LocalDate.now().minusDays(2));
 
         // test with null name
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            newEntity.setNombre(null);
+            mercanciaService.createMercanciaEntity(newEntity);
+        });
+    }
+
+    @Test
+    public void testCreateMercanciaWithEmptyCodigo() {
+        MercanciaEntity newEntity = factory.manufacturePojo(MercanciaEntity.class);
+        newEntity.setCodigoBarras("");
+        newEntity.setFechaRecepcion(LocalDate.now().minusDays(2));
+
+        // test with null name
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            mercanciaService.createMercanciaEntity(newEntity);
+        });
+    }
+
+    @Test
+    public void testCreateMercanciaWithDuplicatedCodigo() {
+        MercanciaEntity originalEntity = factory.manufacturePojo(MercanciaEntity.class);
+        originalEntity.setFechaRecepcion(LocalDate.now().minusDays(2));
+        mercanciaService.createMercanciaEntity(originalEntity);
+        MercanciaEntity newEntity = factory.manufacturePojo(MercanciaEntity.class);
+        newEntity.setCodigoBarras(originalEntity.getCodigoBarras());
+        newEntity.setFechaRecepcion(LocalDate.now().minusDays(2));
+
+        // test with null name
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            mercanciaService.createMercanciaEntity(newEntity);
+        });
+    }
+
+    @Test
+    public void testCreateMercanciaWithNotNombre() {
+        MercanciaEntity newEntity = factory.manufacturePojo(MercanciaEntity.class);
+        newEntity.setNombre(null);
+        newEntity.setFechaRecepcion(LocalDate.now().minusDays(2));
+
+        // test with null name
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            mercanciaService.createMercanciaEntity(newEntity);
+        });
+    }
+
+    @Test
+    public void testCreateMercanciaWithEmptyNombre() {
+        MercanciaEntity newEntity = factory.manufacturePojo(MercanciaEntity.class);
+        newEntity.setNombre("");
+        newEntity.setFechaRecepcion(LocalDate.now().minusDays(2));
+
+        // test with null name
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            mercanciaService.createMercanciaEntity(newEntity);
+        });
+    }
+
+    @Test
+    public void testCreateMercanciaWithDuplicatedNombre() {
+        MercanciaEntity originalEntity = factory.manufacturePojo(MercanciaEntity.class);
+        originalEntity.setFechaRecepcion(LocalDate.now().minusDays(2));
+        mercanciaService.createMercanciaEntity(originalEntity);
+        MercanciaEntity newEntity = factory.manufacturePojo(MercanciaEntity.class);
+        newEntity.setNombre(originalEntity.getNombre());
+        newEntity.setFechaRecepcion(LocalDate.now().minusDays(2));
+
+        // test with null name
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
             mercanciaService.createMercanciaEntity(newEntity);
         });
     }

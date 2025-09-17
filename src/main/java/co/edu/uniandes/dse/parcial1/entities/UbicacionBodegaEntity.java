@@ -17,6 +17,6 @@ public class UbicacionBodegaEntity extends BaseEntity{
     private Integer pesoMaximoGramos;
 
     @PodamExclude
-    @OneToMany
+    @OneToMany(mappedBy = "ubicacionBodega")
     private List<MercanciaEntity> mercacias = new ArrayList<>();
 }

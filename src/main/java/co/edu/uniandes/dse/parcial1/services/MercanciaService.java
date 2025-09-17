@@ -27,12 +27,16 @@ public class MercanciaService {
     public MercanciaEntity createMercanciaEntity(MercanciaEntity mercanciaEntity) {
         log.info("Creating mercancia with name: {}", mercanciaEntity.getNombre());
         
+        if (mercanciaEntity.getFechaRecepcion().isAfter(LocalDate.now())) { //Verificar fecha
+                throw new IllegalArgumentException("Fecha invalida");
+            }
         if (mercanciaEntity.getCodigoBarras() == null || mercanciaEntity.getCodigoBarras().isEmpty() || 
-            getAllMercanciaEntities().stream().anyMatch(r -> r.getCodigoBarras().equals(mercanciaEntity.getCodigoBarras())) ||
-            mercanciaEntity.getNombre() == null || mercanciaEntity.getNombre().isEmpty() ||
-            getAllMercanciaEntities().stream().anyMatch(r -> r.getNombre().equals(mercanciaEntity.getNombre())) ||
-            mercanciaEntity.getFechaRecepcion().isAfter(LocalDate.now())) {
-                throw new IllegalArgumentException("La entidad no cumple con las reglas de negocio");
+            getAllMercanciaEntities().stream().anyMatch(r -> r.getCodigoBarras().equals(mercanciaEntity.getCodigoBarras()))) { // verificar Codigo de Barras
+                throw new IllegalArgumentException("Codigo de Barras Invalido");
+            }
+        if (mercanciaEntity.getNombre() == null || mercanciaEntity.getNombre().isEmpty() ||
+            getAllMercanciaEntities().stream().anyMatch(r -> r.getNombre().equals(mercanciaEntity.getNombre()))) { // verificar Nombre
+                throw new IllegalArgumentException("Nombre Invalido");
             }
 
         log.info("Mercancia created successfully: {}, id: {}", mercanciaEntity.getNombre(), mercanciaEntity.getId());
